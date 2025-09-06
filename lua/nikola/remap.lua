@@ -21,5 +21,5 @@ set("n", "Q", "<nop>")
 set("n", "U", "<C-R>")
 
 set({"n", "v"}, "gg", "gg0")
-set({"n", "v"}, "ge", "G$")
+set({"n", "v"}, "ge", "G$0")
 
