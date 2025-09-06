@@ -26,12 +26,14 @@ return {
                     default_config = {
                         cmd = { "/usr/local/bin/ra-multiplex", "client", "--server-path", "rust-analyzer" },
                         filetype = { "rust" },
-                        root_dir = lspconfig.util.root_pattern("Cargo.toml", ".git"),
+                        root_dir = lspconfig.util.root_pattern("Cargo.toml"),
                         settings = {},
                     }
                 }
             end
             lspconfig.rust_multiplex.setup {}
+
+            lspconfig.gopls.setup {}
 
             vim.diagnostic.config({
                 virtual_text = {

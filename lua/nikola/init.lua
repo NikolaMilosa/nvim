@@ -3,8 +3,6 @@ require("nikola.set")
 require("nikola.remap")
 require("nikola.lazy")
 
-vim.cmd.colorscheme("habamax")
-
 local autocmd = vim.api.nvim_create_autocmd
 
 autocmd('LspAttach', {
