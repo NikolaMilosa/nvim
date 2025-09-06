@@ -15,7 +15,41 @@ return {
             },
         },
         config = function()
-            require("lspconfig").lua_ls.setup {}
+            local lspconfig = require("lspconfig")
+            local configs = require("lspconfig.configs")
+            -- lua setup --
+            lspconfig.lua_ls.setup {}
+ 
+            -- rust setup --
+            if not configs.rust_multiplex then
+                configs.rust_multiplex = {
+                    default_config = {
+                        cmd = { "/usr/local/bin/ra-multiplex" },
+                        filetype = { "rust" },
+                        root_dir = lspconfig.util.root_pattern("Cargo.toml", ".git"),
+                        settings = {},
+                    }
+                }
+            end
+            lspconfig.rust_multiplex.setup {}
+            vim.diagnostic.config({
+                virtual_text = {
+                    prefix = "●", -- could be "■", "▎", "x"
+                    spacing = 3,
+                },
+                signs = true,
+                underline = true,
+                update_in_insert = false,
+                severity_sort = true,
+                float = {
+                    focusable = false,
+                    style = "minimal",
+                    border = "rounded",
+                    source = true,
+                    header = "",
+                    prefix = "",
+                },
+            })
         end,
     }
 }

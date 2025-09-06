@@ -19,3 +19,7 @@ set({ "n", "v" }, "<leader>d", "\"_d")
 set("n", "Q", "<nop>")
 
 set("n", "U", "<C-R>")
+
+set({"n", "v"}, "gg", "gg0")
+set({"n", "v"}, "ge", "G$")
+
