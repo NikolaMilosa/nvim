@@ -7,6 +7,6 @@ return {
 
         hop.setup {}
 
-        vim.keymap.set('', '<leader>g', hop.hint_char1)
+        vim.keymap.set('', 'gw', hop.hint_char1)
     end 
 }
