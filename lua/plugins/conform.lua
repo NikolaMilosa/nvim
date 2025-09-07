@@ -10,6 +10,7 @@ return {
                 typescript = { "prettier" },
                 rust = { "rustfmt" },
                 python = { "ruff" },
+                csharp_ls = { "dotnet", "format", "--include" },
             },
             format_on_save = function(bufnr)
                 return { timeout_ms = 3000, lsp_fallback = true }
