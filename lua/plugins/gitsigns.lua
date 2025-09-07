@@ -13,7 +13,6 @@ return {
                 map("n", "<leader>b", gitsigns.blame)
                 map("n", "<leader>hr", gitsigns.reset_hunk)
                 map({ 'o', 'x' }, 'ih', function()
-                    print("Trying to select hunk")
                     gitsigns.select_hunk()
                 end)
             end
