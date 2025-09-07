@@ -44,6 +44,8 @@ return {
 
             lspconfig.csharp_ls.setup {}
 
+            lspconfig.pyright.setup {}
+
             vim.diagnostic.config({
                 virtual_text = {
                     prefix = "●", -- could be "■", "▎", "x"

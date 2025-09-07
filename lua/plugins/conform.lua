@@ -9,8 +9,14 @@ return {
                 javascript = { "prettier" },
                 typescript = { "prettier" },
                 rust = { "rustfmt" },
-                python = { "ruff" },
-                csharp_ls = { "dotnet", "format", "--include" },
+                python = function(bufnr)
+                    if require("conform").get_formatter_info("ruff_format", bufnr).available then
+                        return { "ruff_organize_imports", "ruff_fix", "ruff_format" }
+                    else
+                        vim.notify("Ruff format not found!", vim.log.levels.WARN)
+                        return { "isort", "black" }
+                    end
+                end,
             },
             format_on_save = function(bufnr)
                 return { timeout_ms = 3000, lsp_fallback = true }
