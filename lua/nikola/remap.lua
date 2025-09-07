@@ -20,7 +20,7 @@ set("n", "Q", "<nop>")
 
 set("n", "U", "<C-R>")
 
-set({"n", "v"}, "gg", "gg0")
-set({"n", "v"}, "ge", "G$0")
-set({"n", "v"}, "gl", "$")
-set({"n", "v"}, "gh", "0")
+set({ "n", "v" }, "gg", "gg0")
+set({ "n", "v" }, "ge", "G$0")
+set({ "n", "v" }, "gl", "$")
+set({ "n", "v" }, "gh", "0")
