@@ -55,11 +55,14 @@ local function open_file_in_split(direction)
 end
 
 -- Keymaps
-vim.keymap.set("n", "<leader>sh", function() open_file_in_split("left") end,
+set("n", "<leader>sh", function() open_file_in_split("left") end,
     { desc = "Open file under cursor in left split" })
-vim.keymap.set("n", "<leader>sl", function() open_file_in_split("right") end,
+set("n", "<leader>sl", function() open_file_in_split("right") end,
     { desc = "Open file under cursor in right split" })
-vim.keymap.set("n", "<leader>sk", function() open_file_in_split("up") end,
+set("n", "<leader>sk", function() open_file_in_split("up") end,
     { desc = "Open file under cursor in up split" })
-vim.keymap.set("n", "<leader>sj", function() open_file_in_split("down") end,
+set("n", "<leader>sj", function() open_file_in_split("down") end,
     { desc = "Open file under cursor in down split" })
+
+set("n", "<M-j>", "<cmd>cnext<CR>")
+set("n", "<M-k>", "<cmd>cprev<CR>")
