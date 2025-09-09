@@ -33,5 +33,5 @@ set("n", "-", "<cmd>split<CR>")
 
 set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
-set("n", "<C-d>n", function() vim.diagnostic.jump({ count = 1, float = true }) end)
-set("n", "<C-d>p", function() vim.diagnostic.jump({ count = -1, float = true }) end)
+set("n", "<leader>dn", function() vim.diagnostic.jump({ count = 1, float = true }) end)
+set("n", "<leader>dp", function() vim.diagnostic.jump({ count = -1, float = true }) end)
