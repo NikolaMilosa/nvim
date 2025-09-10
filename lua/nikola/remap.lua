@@ -35,3 +35,10 @@ set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
 set("n", "<leader>dn", function() vim.diagnostic.jump({ count = 1, float = true }) end)
 set("n", "<leader>dp", function() vim.diagnostic.jump({ count = -1, float = true }) end)
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end
+})
