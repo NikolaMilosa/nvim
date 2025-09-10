@@ -23,6 +23,30 @@ end
 
 return {
     {
+        'saghen/blink.cmp',
+        dependencies = { 'rafamadriz/friendly-snippets' },
+
+        version = '1.*',
+
+        opts = {
+            keymap = { preset = 'default' },
+
+            appearance = {
+                nerd_font_variant = 'mono'
+            },
+
+            completion = { documentation = { auto_show = false } },
+            signature = { enabled = true },
+
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+
+            fuzzy = { implementation = "prefer_rust_with_warning" }
+        },
+        opts_extend = { "sources.default" }
+    },
+    {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
@@ -36,19 +60,17 @@ return {
                     },
                 },
             },
-
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline",
-            "hrsh7th/nvim-cmp",
-            "L3MON4D3/LuaSnip",
+            'saghen/blink.cmp',
         },
         config = function()
             local lspconfig = require("lspconfig")
             local configs = require("lspconfig.configs")
+
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+
             -- lua setup --
-            lspconfig.lua_ls.setup {}
+            lspconfig.lua_ls.setup {
+                capabilities = capabilities }
 
             -- rust setup --
             if not configs.rust_multiplex then
@@ -61,13 +83,14 @@ return {
                     }
                 }
             end
-            lspconfig.rust_multiplex.setup {}
+            lspconfig.rust_multiplex.setup {
+                capabilities = capabilities }
 
-            lspconfig.gopls.setup {}
+            lspconfig.gopls.setup { capabilities = capabilities }
 
-            lspconfig.csharp_ls.setup {}
+            lspconfig.csharp_ls.setup { capabilities = capabilities }
 
-            lspconfig.pyright.setup {}
+            lspconfig.pyright.setup { capabilities = capabilities }
 
             vim.diagnostic.config({
                 virtual_text = {
@@ -92,35 +115,6 @@ return {
                     header = "",
                     prefix = "",
                 },
-            })
-
-            local cmp = require('cmp')
-            local cmp_lsp = require("cmp_nvim_lsp")
-            local capabilities = vim.tbl_deep_extend(
-                "force",
-                {},
-                vim.lsp.protocol.make_client_capabilities(),
-                cmp_lsp.default_capabilities())
-
-            local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-                    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                }),
-                sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                }, {
-                    { name = 'buffer' },
-                })
             })
 
             -- Try source on init
