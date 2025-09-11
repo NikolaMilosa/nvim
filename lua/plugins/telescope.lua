@@ -49,5 +49,6 @@ return {
         end)
         vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols)
         vim.keymap.set('n', '<leader>fr', builtin.lsp_references)
+        vim.keymap.set('n', '<leader>.', function() builtin.find_files({ cwd = vim.fn.expand('%:p:h') }) end)
     end
 }
