@@ -9,6 +9,7 @@ return {
 
     config = function()
         local telescopeConfig = require("telescope.config")
+        local actions = require("telescope.actions")
 
         local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 
@@ -19,6 +20,12 @@ return {
         require('telescope').setup({
             defaults = {
                 vimgrep_arguments = vimgrep_arguments,
+                mappings = {
+                    i = {
+                        ["<esc>"] = actions.close,
+                        ["<C-u>"] = false
+                    },
+                }
             },
             pickers = {
                 find_files = {
