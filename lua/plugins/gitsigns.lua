@@ -10,7 +10,7 @@ return {
                     vim.keymap.set(mode, l, r, opts)
                 end
 
-                map("n", "<leader>b", gitsigns.blame)
+                map("n", "<leader>gb", gitsigns.blame)
                 map("n", "<leader>hr", gitsigns.reset_hunk)
                 map({ 'o', 'x' }, 'ih', function()
                     gitsigns.select_hunk()

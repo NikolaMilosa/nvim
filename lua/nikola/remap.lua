@@ -28,7 +28,7 @@ set({ "n", "v" }, "gh", "0")
 set("n", "<M-j>", "<cmd>cnext<CR>")
 set("n", "<M-k>", "<cmd>cprev<CR>")
 
-set("n", "ž", "<cmd>vsplit<CR>")
+set("n", "|", "<cmd>vsplit<CR>")
 set("n", "-", "<cmd>split<CR>")
 
 set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })

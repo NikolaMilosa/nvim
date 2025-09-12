@@ -8,7 +8,7 @@ return {
                 go = { "gofmt" },
                 javascript = { "prettier" },
                 typescript = { "prettier" },
-                rust = { "cargo fmt" },
+                rust = { "rustfmt" },
                 python = function(bufnr)
                     if require("conform").get_formatter_info("ruff_format", bufnr).available then
                         return { "ruff_organize_imports", "ruff_fix", "ruff_format" }
@@ -23,7 +23,7 @@ return {
             end
         })
 
-        vim.keymap.set("n", "<leader>f", function()
+        vim.keymap.set("n", "<leader>bf", function()
             require("conform").format({ bufnr = 0 })
         end)
     end,

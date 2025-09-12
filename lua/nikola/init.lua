@@ -1,4 +1,3 @@
-
 require("nikola.set")
 require("nikola.remap")
 require("nikola.lazy")
@@ -11,7 +10,6 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set("n", "<leader>k", function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set("n", "<leader>a", function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set("n", "<leader>gr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
         local client = vim.lsp.get_client_by_id(e.data.client_id)
