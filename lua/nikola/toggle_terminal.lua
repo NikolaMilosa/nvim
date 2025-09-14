@@ -3,6 +3,10 @@
 
 local M = {}
 
+--- @todo: Abstract this so I can have multiple terminals
+--- bound to specific key bindings. Would be useful to have
+--- one for dev containers and others for something else like
+--- git.
 local buf = 0
 local win = 0
 local shown = false
