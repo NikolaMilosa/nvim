@@ -2,6 +2,7 @@ require("nikola.set")
 require("nikola.remap")
 require("nikola.lazy")
 require("nikola.leet").setup()
+require("nikola.toggle_terminal").setup()
 
 local autocmd = vim.api.nvim_create_autocmd
 
