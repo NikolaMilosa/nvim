@@ -32,17 +32,18 @@ return {
             keymap = { preset = 'default' },
 
             appearance = {
+                use_nvim_cmp_as_default = true,
                 nerd_font_variant = 'mono'
             },
 
-            documentation = { enabled = true },
-            signature = { enabled = true },
+            --- for some reason it is not working properly
+            ---       documentation = { auto_show = true, auto_show_delay_ms = 50 },
+            signature = { enabled = true, window = { show_documentation = true } },
 
-            sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
-            },
+            completion = {
+                documentation = { auto_show = true, auto_show_delay_ms = 100 },
+            }
 
-            fuzzy = { implementation = "prefer_rust_with_warning" }
         },
         opts_extend = { "sources.default" }
     },
