@@ -29,7 +29,7 @@ return {
             },
             pickers = {
                 find_files = {
-                    find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*", "--no-ignore" },
+                    find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*", "--no-ignore", "--glob", "!target/*" },
                 }
             }
         })
