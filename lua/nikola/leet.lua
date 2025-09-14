@@ -4,7 +4,7 @@
 local M = {}
 
 --- @todo: Map this to as shortcut
---- @todo: Add a yank specifically for the code and usings
+--- @todo: Add running of tests and printing their output in a window
 
 local open_buffer_and_set_as_active = function(name)
     vim.cmd("edit " .. name)
@@ -96,6 +96,29 @@ local parse_lines = function(lines)
     save_file(problem_name, contents)
 end
 
+local yank_buffer = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+    local lines_to_yank = {}
+
+    for _, line in ipairs(lines) do
+        if line:match("^use%s+crate::Solution;$") then
+            goto continue
+        end
+
+        if line == "#[test]" then
+            break
+        end
+
+        table.insert(lines_to_yank, line)
+
+        ::continue::
+    end
+
+    vim.fn.setreg("*", table.concat(lines_to_yank, "\n"))
+end
+
 function M.setup()
     local working_dir = vim.fn.getcwd()
     local pattern = "work/Personal/some-more-leet"
@@ -141,6 +164,14 @@ function M.setup()
         nargs = "*",
         desc = "Open a scratch buffer, paste text, and close it",
     })
+
+    -- Add a command to yank the solution to system clipboard
+    vim.api.nvim_create_user_command("LeetYank", yank_buffer, {
+        desc = "Yank only the solution code from the buffer"
+    })
+
+    vim.keymap.set({ "x", "o", "n" }, "yal", yank_buffer)
+    vim.keymap.set({ "x", "o", "n" }, "yil", yank_buffer)
 end
 
 return M
