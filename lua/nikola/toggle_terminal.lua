@@ -57,7 +57,7 @@ function M.setup()
         nargs = "*",
         desc = "Toggle the popup terminal window with console",
     })
-    vim.keymap.set({ "n", "t" }, "<M-t>", toggle_term_window)
+    vim.keymap.set({ "n", "t" }, "<C-t>", toggle_term_window)
 end
 
 return M
