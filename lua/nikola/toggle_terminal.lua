@@ -3,53 +3,93 @@
 
 local M = {}
 
---- @todo: Abstract this so I can have multiple terminals
---- bound to specific key bindings. Would be useful to have
---- one for dev containers and others for something else like
---- git.
-local buf = 0
-local win = 0
 local shown = false
 
-local ui = vim.api.nvim_list_uis()[1]
-local width = math.floor(ui.width * 0.8)
-local height = math.floor(ui.height * 0.8)
-local col = math.floor((ui.width - width) / 2)
-local row = math.floor((ui.height - height) / 2)
+--- @class Terminal
+--- @field buf number buffer number assigned to this terminal
+--- @field win number window number assigned to this terminal
+--- @field term_initialized boolean if the terminal is created or not
+
+--- @type Terminal[]
+local terminals = {}
+
+--- @type Terminal
+local active_terminal = {
+    buf = 0,
+    win = 0,
+    term_initialized = false,
+}
+
 
 local create_window = function()
     buf = vim.api.nvim_create_buf(false, true)
 end
 
-local toggle_term_window = function()
-    local created_window = false
-    if buf == 0 then
-        create_window()
-        created_window = true
+--- @param term Terminal which terminal to show
+local show_window = function(term)
+    local ui = vim.api.nvim_list_uis()[1]
+    local width = math.floor(ui.width * 0.8)
+    local height = math.floor(ui.height * 0.8)
+    local col = math.floor((ui.width - width) / 2)
+    local row = math.floor((ui.height - height) / 2)
+
+    term.win = vim.api.nvim_open_win(term.buf, true, {
+        relative = "editor",
+        width = width,
+        height = height,
+        col = col,
+        row = row,
+        style = "minimal",
+        border = "rounded",
+    })
+    vim.api.nvim_set_current_buf(term.buf)
+
+    if not term.term_initialized then
+        vim.cmd("terminal")
+        term.term_initialized = true
+    end
+end
+
+--- @param term Terminal which terminal to hide
+local hide_window = function(term)
+    if term.win == 0 then
+        return
+    end
+    if vim.api.nvim_win_is_valid(term.win) then
+        vim.api.nvim_win_close(term.win, true)
+    end
+end
+
+local toggle_term_window = function(term)
+    local last = #terminals
+
+    if term > last then
+        for i = last + 1, term do
+            curr_term = {
+                buf = vim.api.nvim_create_buf(false, true),
+                win = 0
+            }
+            table.insert(terminals, curr_term)
+        end
     end
 
-    if not shown then
-        win = vim.api.nvim_open_win(buf, true, {
-            relative = "editor",
-            width = width,
-            height = height,
-            col = col,
-            row = row,
-            style = "minimal",
-            border = "rounded",
-        })
-        vim.api.nvim_set_current_buf(buf)
-        if created_window then
-            vim.cmd("terminal")
+    local targeted_terminal = terminals[term]
+
+    if targeted_terminal.buf == active_terminal.buf then
+        -- Toggle active terminal
+        if not shown then
+            show_window(active_terminal)
+        else
+            hide_window(active_terminal)
         end
+        shown = not shown
     else
-        if vim.api.nvim_win_is_valid(win) then
-            vim.api.nvim_win_close(win, true)
-        end
+        -- Turn off active terminal and open the new terminal
+        hide_window(active_terminal)
+        active_terminal = targeted_terminal
+        show_window(active_terminal)
+        shown = true
     end
-
-    -- Invert shown
-    shown = not shown
 end
 
 function M.setup()
@@ -57,7 +97,16 @@ function M.setup()
         nargs = "*",
         desc = "Toggle the popup terminal window with console",
     })
-    vim.keymap.set({ "n", "t" }, "<C-t>", toggle_term_window)
+
+    vim.keymap.set({ "n", "t" }, "<C-t>", function()
+        toggle_term_window(1)
+    end)
+    vim.keymap.set({ "n", "t" }, "<C-z>", function()
+        toggle_term_window(2)
+    end)
+    vim.keymap.set({ "n", "t" }, "<C-u>", function()
+        toggle_term_window(3)
+    end)
 end
 
 return M
