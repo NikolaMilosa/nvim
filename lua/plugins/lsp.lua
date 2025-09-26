@@ -93,6 +93,8 @@ return {
 
             lspconfig.pyright.setup { capabilities = capabilities }
 
+            lspconfig.terraform_lsp.setup { capabilities = capabilities }
+
             vim.diagnostic.config({
                 virtual_text = {
                     prefix = "●", -- could be "■", "▎", "x"
